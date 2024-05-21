@@ -1,32 +1,33 @@
 package com.busanit501.samplejsp_501.connectTest.samplejsp_501.lunchmenu.dao;
 
-import com.busanit501.samplejsp_501.connectTest.samplejsp_501.lunchmenu.lunchVO;
+import com.busanit501.samplejsp_501.connectTest.samplejsp_501.lunchmenu.LunchVO;
 import lombok.Cleanup;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class lunchmenuDAO {
+public class LunchmenuDAO {
 
-    public List<lunchVO> selectAll() throws Exception{
+    public List<LunchVO> selectAll() throws Exception{
 
-        String sql = "select * from lunchmenu where menuNO = 3";
+        String sql = "select * from lunchmenu";
 
         @Cleanup Connection conn = ConnectionUtil.INSTANCE.getConnection();
         @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
         @Cleanup ResultSet resultSet = pstmt.executeQuery();
 
-        List<lunchVO> samples = new ArrayList<lunchVO>();
+        List<LunchVO> samples = new ArrayList<LunchVO>();
 
         while (resultSet.next()){
 //
-            lunchVO lunchVOBuilder = lunchVO.builder()
+            LunchVO lunchVOBuilder = LunchVO.builder()
                     .menuNo(resultSet.getLong("menuNo"))
-                    .MenuTitle(resultSet.getString("MenuTitle"))
-                    .MenuRegDate(resultSet.getDate("MenuRegDate").toLocalDate())
+                    .menuTitle(resultSet.getString("MenuTitle"))
+                    .menuRegDate(resultSet.getDate("MenuRegDate").toLocalDate())
                     .build();
             // 리스트에 담기.
             samples.add(lunchVOBuilder);
@@ -35,13 +36,69 @@ public class lunchmenuDAO {
         //임시 반환값.
         return samples;
     }
+//select one
+    public LunchVO selectOne(Long menuNo) throws Exception{
+        String sql = "select * from lunchmenu where menuNo = ?";
+
+        @Cleanup Connection conn = com.busanit501.samplejsp_501.connectTest.samplejsp_501.todo.dao.ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setLong(1,menuNo);
+        @Cleanup ResultSet resultSet = pstmt.executeQuery();
+        // 값이 하나여서, 반복문 필요없음.
+        resultSet.next();
+        // 임시 로 담을 인스턴스 . builder 패턴 이용해보기.
+        // 데이터베이스에서 조회한 1개의 행을 넣기.
+        LunchVO lunchVOBuilder = LunchVO.builder()
+                .menuNo(resultSet.getLong("menuNo"))
+                .menuTitle(resultSet.getString("MenuTitle"))
+                .menuRegDate(resultSet.getDate("MenuRegDate").toLocalDate())
+                .build();
+        // 임시 인스턴스
+        return lunchVOBuilder;
+    }
 
     // 쓰기 insert
 
+    public void insert(LunchVO vo) throws Exception {
+        String sql = "insert into lunchmenu (MenuTitle, MenuRegDate) values (?,?);";
+
+        @Cleanup Connection conn = com.busanit501.samplejsp_501.connectTest.samplejsp_501.todo.dao.ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1,vo.getMenuTitle());
+        pstmt.setDate(2, Date.valueOf(vo.getMenuRegDate()));
+
+
+        pstmt.executeUpdate();
+    }
+
     // 수정 update
 
-    // 삭제 delete
+    public void update(LunchVO vo) throws Exception {
+        String sql = "update lunchmenu set MenuTitle = ?, MenuRegDate = ? " +
+                "where menuNo = ?;";
 
+        @Cleanup Connection conn = com.busanit501.samplejsp_501.connectTest.samplejsp_501.todo.dao.ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setString(1,vo.getMenuTitle());
+        pstmt.setDate(2, Date.valueOf(vo.getMenuRegDate()));
+        pstmt.setLong(3,vo.getMenuNo());
+
+        pstmt.executeUpdate();
+    }
+
+    // 삭제 delete
+    public void delete(long menuNo) throws Exception {
+        String sql = "delete from lunchmenu where menuNo = ?;";
+
+        @Cleanup Connection conn = com.busanit501.samplejsp_501.connectTest.samplejsp_501.todo.dao.ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = conn.prepareStatement(sql);
+
+        pstmt.setLong(1,menuNo);
+        pstmt.executeUpdate();
+    }
 
 
     public String  getTime2() throws Exception{

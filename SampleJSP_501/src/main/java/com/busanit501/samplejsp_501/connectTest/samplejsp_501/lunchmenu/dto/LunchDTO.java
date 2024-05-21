@@ -1,4 +1,4 @@
-package com.busanit501.samplejsp_501.connectTest.samplejsp_501.lunchmenu;
+package com.busanit501.samplejsp_501.connectTest.samplejsp_501.lunchmenu.dto;
 
 import lombok.*;
 
@@ -11,9 +11,9 @@ import java.time.LocalDate;
 @Setter
 //@RequiredArgsConstructor
 @AllArgsConstructor
-public class lunchVO {
+public class LunchDTO {
     private long menuNo ;
-    private String MenuTitle ;
-    private LocalDate MenuRegDate ;
+    private String menuTitle ;
+    private LocalDate menuRegDate ;
 }
 

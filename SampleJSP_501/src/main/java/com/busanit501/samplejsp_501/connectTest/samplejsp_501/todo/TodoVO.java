@@ -6,14 +6,11 @@ import java.time.LocalDate;
 
 @Getter
 @Builder
-@ToString
 @NoArgsConstructor
-@Setter
-//@RequiredArgsConstructor
 @AllArgsConstructor
 public class TodoVO {
-    private long tno;
+    private Long tno;
     private String title;
-    private LocalDate duedate;
+    private LocalDate dueDate;
     private boolean finished;
 }

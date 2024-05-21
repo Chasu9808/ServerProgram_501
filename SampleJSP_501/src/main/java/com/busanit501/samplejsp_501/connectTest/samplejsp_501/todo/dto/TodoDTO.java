@@ -1,6 +1,12 @@
 package com.busanit501.samplejsp_501.connectTest.samplejsp_501.todo.dto;
 
+import lombok.*;
+
 import java.time.LocalDate;
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class TodoDTO {
     // 인스턴스 멤버.
@@ -9,52 +15,4 @@ public class TodoDTO {
     private LocalDate dueDate;
     private boolean finished;
 
-    public Long getTno() {
-        return tno;
-    }
-
-    public void setTno(Long tno) {
-        this.tno = tno;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
-
-    @Override
-    public String toString() {
-        return "TodoDTO{" +
-                "tno=" + tno +
-                ", title='" + title + '\'' +
-                ", dueDate=" + dueDate +
-                ", finished=" + finished +
-                '}';
-    }
 }
-
-
-
-
-
-
-

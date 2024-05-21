@@ -24,7 +24,7 @@ public class ConnectDbTest {
         TodoVO todo = TodoVO.builder()
                 .tno(100L)
                 .title("제목100")
-                .duedate(LocalDate.now())
+                .dueDate(LocalDate.now())
                 .build();
         System.out.println(todo);
     }
